@@ -87,11 +87,11 @@ const updateUser = asyncHandler(async (req, res) => {
 
   const updatedUser = await user.save();
 
-  res.json({ message: `${updatedUser.username} updated` });
+  res.json({ message: `${user.username} updated` });
 });
 
 // @desc Delete a user
-// @route DELETE /users
+// @route DELETE /users/deleteUser/:id
 // @access Private
 const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
