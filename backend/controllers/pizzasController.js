@@ -1,12 +1,13 @@
-const Pizza = require("../models/Pizza");
+const Pizza  = require("../models/Pizza");
+const Comment = require("../models/Comment");
+
 const asyncHandler = require("express-async-handler");
 
 // @desc Get all pizzas
 // @route GET /pizzas
 // @access Private
 const getAllPizzas = asyncHandler(async (req, res) => {
-
-  const pizzas = await Pizza.find({}).lean().exec();
+  const pizzas = await Pizza.find();
 
   if (!pizzas?.length) {
     return res.status(400).json({ message: "No pizzas found." });
@@ -15,31 +16,106 @@ const getAllPizzas = asyncHandler(async (req, res) => {
 });
 
 
+// @desc Get one pizzas
+// @route GET /pizzas/:id
+// @access Private
+const getOnePizza = asyncHandler(async (req, res) => {
+
+  const id  = req.params
+
+  const pizza = await Pizza.findOne(id).populate("comments").exec();
+
+  console.log(pizza);
+
+  if (!pizza) {
+    return res.status(400).json({ message: "Pizza was not found." });
+  }
+  res.json(pizza);
+});
+
 // @desc Create new pizza
 // @route POST /pizzas
 // @access Private
 const createNewPizza = asyncHandler(async (req, res) => {
+  const { name, toppings, small, large, imageUrl, vegan } = req.body;
 
-  const { title, topings, price, imageUrl } = req.body;
+  console.log(req.body);
 
-  if (!title || !topings || !price?.small || !price?.large) {
+  if (!name || !toppings || !small || !large || !imageUrl || !vegan) {
     return res.status(400).json({ message: "All fields are required." });
   }
 
+  const isVeganTrue = vegan === "true";
+  const toppingsArray = toppings.split(", ");
+
   const pizzaObject = {
-    title: title,
-    topings: topings,
-    price: price,
-    imageUrl: imageUrl
-    };
+    name: name,
+    toppings: toppingsArray,
+    price: {
+      small: Number(small),
+      large: Number(large),
+    },
+    imageUrl: imageUrl,
+    vegan: isVeganTrue,
+  };
 
   const pizza = await Pizza.create(pizzaObject);
 
   if (pizza) {
-    res.status(201).json({ message: `New pizza ${title} has been created.` });
+    res
+      .status(201)
+      .json({
+        message: `New pizza ${name} has been created.`,
+        newPizzaObj: pizza,
+      });
   } else {
     res.status(400).json({ message: "Couldn't create new pizza." });
   }
+});
+
+// @desc Add new comment to pizza
+// @route POST /pizzas/:id/addComment
+// @access Private
+const addComment = asyncHandler(async (req, res) => {
+
+  const id  = req.params
+
+  const newComment  = req.body;
+
+  // console.log("id oraz req.body: ");
+
+  // console.log(id);
+
+  // console.log(newComment);
+
+
+  if (!newComment) {
+    return res.status(400).json({ message: "New comment is required!" });
+  }
+
+  const pizza = await Pizza.findOne(id).exec();
+
+  if (!pizza) {
+    return res.status(400).json({ message: "Pizza not found" });
+  }
+
+  const newAddedComment = new Comment(newComment);
+
+  newAddedComment.save()
+
+  newIdObj = newAddedComment._id
+
+  console.log("newIdObj: ", newIdObj);
+
+  pizza.comments.push(newIdObj);
+
+  // console.log(pizza.comments);
+
+  pizza.save();
+
+  const pizzaWithNewComment = await Pizza.findOne(id).populate("comments").exec()
+
+  res.json({message: `New comment added!`, newPizza: pizzaWithNewComment});
 });
 
 // @desc Update a pizza
@@ -47,61 +123,68 @@ const createNewPizza = asyncHandler(async (req, res) => {
 // @access Private
 const updatePizza = asyncHandler(async (req, res) => {
 
-  const { id, title, topings, price, imageUrl, notes } = req.body;
+  const id  = req.params
 
-  if (!id || !title || !topings || !price?.small || !price?.large || !imageUrl) {
-    return res
-      .status(400)
-      .json({ message: "All fields except notes are required" });
+  console.log(id);
+
+  const { name, toppings, small, large, imageUrl, vegan } = req.body;
+
+  console.log(req.body);
+
+  if (!name || !toppings || !small || !large || !imageUrl || !vegan) {
+    return res.status(400).json({ message: "All fields are required" });
   }
 
-  const pizza = await Pizza.findOne({ _id: id }).exec();
+  const isVeganTrue = vegan === "true";
+  const toppingsArray = toppings.split(", ");
 
+  const pizza = await Pizza.findOne(id).exec();
 
   if (!pizza) {
-    return res.status(400).json({ message: "User not found" });
+    return res.status(400).json({ message: "Pizza not found" });
   }
 
-  pizza.title = title;
-  pizza.topings = topings;
-  pizza.price = price;
+  pizza.name = name;
+  pizza.toppings = toppingsArray;
+  pizza.price.small = small;
+  pizza.price.large = large;
   pizza.imageUrl = imageUrl;
-
-  if (notes) {
-    pizza.notes = notes;
-  }
+  pizza.vegan = isVeganTrue
 
   const updatedPizza = await pizza.save();
 
-  res.json({ message: `${pizza.title} updated` });
+  res.json({ message: `Pizza with id: ${id.id} updated!`, updatedPizza: updatedPizza});
 });
 
 // @desc Delete a pizza
 // @route DELETE /pizzas/deletePizza/:id
 // @access Private
 const deletePizza = asyncHandler(async (req, res) => {
+
   const { id } = req.params;
 
   if (!id) {
     return res.status(400).json({ message: "Pizza ID is required" });
   }
 
-  const pizza = await Pizza.findOne({ _id: id }).exec();
+  const pizza = await Pizza.findOne({id}).exec();
 
   if (!pizza) {
     return res.status(400).json({ message: "Pizza not found" });
   }
 
-  const result = await Pizza.deleteOne(pizza)
+  const result = await Pizza.deleteOne(pizza);
 
-  const resultMsg = `Pizza: ${pizza.title} with ID: ${pizza._id} has been deleted`
+  const resultMsg = `Pizza: ${pizza.name} with ID: ${pizza.id} has been deleted`;
 
-  res.json(resultMsg)
+  res.json({ message: resultMsg, id: pizza.id});
 });
 
 module.exports = {
   getAllPizzas,
+  getOnePizza,
   createNewPizza,
   updatePizza,
   deletePizza,
+  addComment
 };

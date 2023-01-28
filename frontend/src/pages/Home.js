@@ -1,12 +1,10 @@
 import React from "react";
 
-const Home = (props) => {
+const Home = () => {
   return (
-    <React.Fragment>
-      <div className="page-content home-content">
-        <h1>CHECK BEST PIZZA</h1>
-      </div>
-    </React.Fragment>
+    <main>
+      <h1>Home page!</h1>
+    </main>
   );
 }
  

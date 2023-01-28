@@ -1,14 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const pizzasController = require("../controllers/pizzasController")
+const pizzasController = require("../controllers/pizzasController");
 
-router.route('/')
-    .get(pizzasController.getAllPizzas)
-    .post(pizzasController.createNewPizza)
-    .patch(pizzasController.updatePizza)
-    
-router.route("/deletePizza/:id")
-    .delete(pizzasController.deletePizza)
+router
+  .route("/")
+  .get(pizzasController.getAllPizzas)
+  .post(pizzasController.createNewPizza);
 
+router.route("/:id").get(pizzasController.getOnePizza)
 
-module.exports = router
+router.route("/:id/addComment").post(pizzasController.addComment);
+
+router.route("/updatePizza/:id").patch(pizzasController.updatePizza);
+
+router.route("/deletePizza/:id").delete(pizzasController.deletePizza);
+
+module.exports = router;

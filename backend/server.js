@@ -11,6 +11,10 @@ const mongoose = require("mongoose");
 const { eventsLogger } = require("./middleware/logger");
 const PORT = process.env.PORT || 5000;
 
+const samplePizzas = require("./data/samplePizzas");
+const Pizza = require("./models/Pizza");
+const Comment = require("./models/Comment");
+
 const app = express();
 
 connectDB();
@@ -44,8 +48,17 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-mongoose.connection.once("open", () => {
+mongoose.connection.once("open", async () => {
   console.log("Connected to MongoDB");
+  await Pizza.collection.drop();
+  await Comment.collection.drop();
+  await Promise.all(
+    samplePizzas.map(async (pizza) => {
+      let comments = await Comment.create(pizza.comments);
+      pizza.comments = comments.map((comment) => comment._id);
+      return Pizza.create(pizza);
+    })
+  );
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 

@@ -1,52 +1,53 @@
-const mongoose = require("mongoose");
-const User = require("./User")
+const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
+const timestamp = require('mongoose-timestamp');
+const Comment = require("./Comment")
 
-const pizzaSchema = new mongoose.Schema(
-  {
-    title: {
+autoIncrement.initialize(mongoose.connection);
+
+const pizzaSchema = new mongoose.Schema({
+  name: {
       type: String,
-      required: true,
-    },
-    topings: {
-      type: [String],
-      required: true,
-    },
-    price: {
+      required: true
+  },
+  toppings: [{
+      type: String,
+      required: true
+  }],
+  price: {
       small: {
-        type: Number,
-        required: true,
+          type: Number,
+          required: true
       },
       large: {
-        type: Number,
-        required: true,
-      },
-    },
-    imageUrl: {
+          type: Number,
+          required: true
+      }
+  },
+  vegan: {
+      type: Boolean,
+      required: true
+  },
+  imageUrl: {
       type: String,
       required: true,
-    },
-    notes: [
-      {
-        author: {
-          type: mongoose.SchemaTypes.ObjectId,
-          required: true,
-          ref: User,
-        },
-        title: {
-          type: String,
-          required: true,
-        },
-        body: {
-          type: String,
-          required: true,
-        },
-        default: [],
-      },
-    ],
+      match: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
   },
-  {
-    timestamps: true,
-  }
-);
+  comments: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment"
+  }]
+});
 
-module.exports = mongoose.model("Pizza", pizzaSchema);
+pizzaSchema.plugin(autoIncrement.plugin, {
+  model: 'Pizza',
+  field: 'id',
+  startAt: 1,
+  incrementBy: 1
+});
+
+pizzaSchema.plugin(timestamp);
+
+const Pizza = mongoose.model('Pizza', pizzaSchema);
+
+module.exports = Pizza;
