@@ -485,3 +485,25 @@ button.reset {
 .created h6 {
   margin: 2em 0 0;
 }
+
+
+/* HOME */
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 80vh;
+}
+
+main .login-btn {
+  width: 40%;
+  margin: 1.5rem auto;
+}
+
+.errmsg a {
+  color: blue;
+  font-size: 1.5rem;
+  text-decoration: underline;
+}

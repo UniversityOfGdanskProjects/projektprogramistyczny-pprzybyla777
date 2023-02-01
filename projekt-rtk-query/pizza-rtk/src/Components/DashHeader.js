@@ -1,39 +1,31 @@
 import React from "react";
 import { useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 import logo from "../logo.svg";
 import { useSendLogoutMutation } from "./auth/authApi-slice";
 
-
-
 const DashHeader = () => {
+  const { isAdmin } = useAuth();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const [sendLogout, {
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    }] = useSendLogoutMutation()
+  const [sendLogout, { isLoading, isSuccess, isError, error }] =
+    useSendLogoutMutation();
 
-    useEffect(() => {
-      if (isSuccess) navigate('/')
-    }, [isSuccess, navigate])
+  useEffect(() => {
+    if (isSuccess) navigate("/");
+  }, [isSuccess, navigate]);
 
-    if (isLoading) return <p>Logging Out...</p>
+  if (isLoading) return <p>Logging Out...</p>;
 
-    if (isError) return <p>Error: {error.data?.message}</p>
+  if (isError) return <p>Error: {error?.data?.message}</p>;
 
-    const logoutButton = (
-        <button
-            className="logout-button"
-            title="Logout"
-            onClick={sendLogout}
-        >
-            Log Out
-        </button>
-    )
+  const logoutButton = (
+    <button className="logout-button" title="Logout" onClick={sendLogout}>
+      Log Out
+    </button>
+  );
 
   return (
     <header className="header">
@@ -47,28 +39,36 @@ const DashHeader = () => {
           <li>
             <NavLink to={"/dash/pizzas"}>Pizza Menu</NavLink>
           </li>
-          <li>
-            <NavLink to={"/dash/pizzas/new"}>Add Pizza</NavLink>
-          </li>
+          {isAdmin && (
+            <li>
+              <NavLink to={"/dash/pizzas/new"}>Add Pizza</NavLink>
+            </li>
+          )}
           <li>
             <NavLink to={"/dash/users"}>User List</NavLink>
           </li>
-          <li>
-            <NavLink to={"/dash/users/new"}>Add User</NavLink>
-          </li>
+          {isAdmin && (
+            <li>
+              <NavLink to={"/dash/users/new"}>Add User</NavLink>
+            </li>
+          )}
           <li>
             <NavLink to={"/dash/dogs"}>Dog List</NavLink>
           </li>
-          <li>
-            <NavLink to={"/dash/dogs/new"}>Add Dog</NavLink>
-          </li>
+          {isAdmin && (
+            <li>
+              <NavLink to={"/dash/dogs/new"}>Add Dog</NavLink>
+            </li>
+          )}
           <li>
             <NavLink to={"/dash/cats"}>Cat List</NavLink>
           </li>
-          <li>
-            <NavLink to={"/dash/cats/new"}>Add Cat</NavLink>
-          </li>
-          { logoutButton }
+          {isAdmin && (
+            <li>
+              <NavLink to={"/dash/cats/new"}>Add Cat</NavLink>
+            </li>
+          )}
+          {logoutButton}
         </div>
       </div>
     </header>

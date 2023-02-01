@@ -7,8 +7,11 @@ import {
   selectDogById,
   useDeleteDogMutation,
 } from "../../app/store/dogListApi-slice";
+import useAuth from "../../hooks/useAuth";
 
 const Dog = (props) => {
+  const { isAdmin } = useAuth();
+
   const dogId = props.dogId;
 
   const navigate = useNavigate();
@@ -34,14 +37,16 @@ const Dog = (props) => {
       </div>
       <div className="pizza-footer">
         <h3>{name}</h3>
-        <div className="pizza-actions">
-          <button className="del" onClick={deleteHandler}>
-            Delete
-          </button>
-          <button className="upd" onClick={handleEdit}>
-            Update
-          </button>
-        </div>
+        {isAdmin && (
+          <div className="pizza-actions">
+            <button className="del" onClick={deleteHandler}>
+              Delete
+            </button>
+            <button className="upd" onClick={handleEdit}>
+              Update
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );

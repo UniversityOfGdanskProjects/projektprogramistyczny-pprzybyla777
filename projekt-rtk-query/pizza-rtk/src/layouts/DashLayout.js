@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import DashHeader from "../Components/DashHeader";
+import DashFooter from "../Components/DashFooter";
 
 const DashLayout = (props) => {
   return (
@@ -9,6 +10,8 @@ const DashLayout = (props) => {
       <DashHeader />
 
       <Outlet />
+
+      <DashFooter />
 
     </React.Fragment>
   );

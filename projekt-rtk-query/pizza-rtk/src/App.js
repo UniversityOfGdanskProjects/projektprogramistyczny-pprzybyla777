@@ -30,6 +30,10 @@ import DashLayout from "./layouts/DashLayout";
 
 import PersistLogin from "./Components/auth/PersistLogin";
 import Prefetch from "./Components/auth/Prefetch";
+
+import RequireAuth from "./Components/auth/RequireAuth";
+import { ROLES } from "./config/roles";
+
 import "./App.css";
 
 const App = () => {
@@ -37,43 +41,54 @@ const App = () => {
     <div className="App">
       <Routes>
         <Route path="/" element={<DefaultLayout />}>
+          {/* PUBLIC */}
           <Route index element={<Home />} />
           <Route path="login" element={<LoginPage />} />
-
+          {/* PROTECTED */}
           <Route element={<PersistLogin />}>
-            <Route element={<Prefetch />}>
-              <Route path="dash" element={<DashLayout />}>
-                <Route index element={<LoggedInPage />} />
+            <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />}>
+              <Route element={<Prefetch />}>
+                <Route path="dash" element={<DashLayout />}>
+                  <Route index element={<LoggedInPage />} />
 
-                <Route path="pizzas">
-                  <Route index element={<PizzaList />} />
-                  <Route path=":id" element={<EditPizza />} />
-                  <Route path="new" element={<PizzaForm />} />
-                  <Route path="pizza/:id" element={<SinglePizza />} />
-                </Route>
+                  <Route path="pizzas">
+                    <Route index element={<PizzaList />} />
+                    <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                      <Route path=":id" element={<EditPizza />} />
+                      <Route path="new" element={<PizzaForm />} />
+                    </Route>
+                    <Route path="pizza/:id" element={<SinglePizza />} />
+                  </Route>
 
-                <Route path="users">
-                  <Route index element={<UsersList />} />
-                  <Route path=":id" element={<EditUser />} />
-                  <Route path="new" element={<NewUserForm />} />
-                </Route>
+                  <Route path="users">
+                    <Route index element={<UsersList />} />
+                    <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                      <Route path=":id" element={<EditUser />} />
+                      <Route path="new" element={<NewUserForm />} />
+                    </Route>
+                  </Route>
 
-                <Route path="cats">
-                  <Route index element={<CatsList />} />
-                  <Route path=":id" element={<EditCat />} />
-                  <Route path="new" element={<NewAnimalForm />} />
-                </Route>
+                  <Route path="cats">
+                    <Route index element={<CatsList />} />
+                    <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                      <Route path=":id" element={<EditCat />} />
+                      <Route path="new" element={<NewAnimalForm />} />
+                    </Route>
+                  </Route>
 
-                <Route path="dogs">
-                  <Route index element={<DogsList />} />
-                  <Route path=":id" element={<EditDog />} />
-                  <Route path="new" element={<NewAnimalForm />} />
+                  <Route path="dogs">
+                    <Route index element={<DogsList />} />
+                    <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                      <Route path=":id" element={<EditDog />} />
+                      <Route path="new" element={<NewAnimalForm />} />
+                    </Route>
+                  </Route>
                 </Route>
+                {/* End Dash */}
               </Route>
             </Route>
           </Route>
-          {/* End Dash */}
-
+          {/* End Protected */}
           <Route path="*" element={<Error />}></Route>
         </Route>
       </Routes>

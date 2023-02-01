@@ -5,8 +5,11 @@ import {
   selectCatById,
   useDeleteCatMutation,
 } from "../../app/store/catListApi-slice";
+import useAuth from "../../hooks/useAuth";
 
 const Cat = (props) => {
+  const { isAdmin } = useAuth();
+
   const catId = props.catId;
 
   const navigate = useNavigate();
@@ -33,14 +36,16 @@ const Cat = (props) => {
         </div>
         <div className="pizza-footer">
           <h3>{name}</h3>
-          <div className="pizza-actions">
-            <button className="del" onClick={deleteHandler}>
-              DELETE
-            </button>
-            <button className="upd" onClick={handleEdit}>
-              UPDATE
-            </button>
-          </div>
+          {isAdmin && (
+            <div className="pizza-actions">
+              <button className="del" onClick={deleteHandler}>
+                DELETE
+              </button>
+              <button className="upd" onClick={handleEdit}>
+                UPDATE
+              </button>
+            </div>
+          )}
         </div>
       </article>
     );

@@ -112,7 +112,7 @@ const Login = () => {
         <div className="input-container">
           <label htmlFor="password">password</label>
           <input
-            type="text"
+            type="password"
             id="password"
             name="password"
             placeholder="Margeritta"

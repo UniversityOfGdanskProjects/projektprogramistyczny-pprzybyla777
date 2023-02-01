@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import { selectUserById } from "../../app/store/userListApi-slice";
 import { Link, useNavigate } from "react-router-dom";
 import { useDeleteUserMutation } from "../../app/store/userListApi-slice";
+import useAuth from "../../hooks/useAuth";
 
 const User = (props) => {
+
+  const { username, isAdmin } = useAuth();
 
   const userId = props.userId
 
@@ -39,8 +42,8 @@ const User = (props) => {
               <div className="username"><span>Username: </span>{user.username}</div>
               <div className="roles"><span>Roles: </span>{userRolesString}</div>
               <div className="actions">
-                { !ifAdmin && <button className="del" onClick={deleteHandler}>DELETE</button>}
-                <button className="upd" onClick={handleEdit}> UPDATE</button>
+                { !ifAdmin && isAdmin && <button className="del" onClick={deleteHandler}>DELETE</button>}
+               { ((user.username === username) || isAdmin ) && <button className="upd" onClick={handleEdit}> UPDATE</button> }
               </div>
           </div>
       )
