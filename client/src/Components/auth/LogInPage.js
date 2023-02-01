@@ -128,11 +128,10 @@ const Login = () => {
           )}
         </div>
         <button type="submit">Sign In</button>
-        {/* change it */}
-        <label htmlFor="persist" className="form__persist">
+        <label htmlFor="persist" className="form-persist">
           <input
             type="checkbox"
-            className="form__checkbox"
+            className="form-checkbox"
             id="persist"
             onChange={handleToggle}
             checked={persist}

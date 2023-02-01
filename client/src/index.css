@@ -507,3 +507,12 @@ main .login-btn {
   font-size: 1.5rem;
   text-decoration: underline;
 }
+
+/* SEARCH BAR */
+
+.search-container {
+  width: 40%;
+  margin: 2rem auto 3rem;
+}
+
+/* LOGIN PAGE */
