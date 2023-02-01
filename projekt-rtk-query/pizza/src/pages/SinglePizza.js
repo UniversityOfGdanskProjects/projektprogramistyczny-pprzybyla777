@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectPizzaById, useGetPizzasQuery } from "../app/store/pizzaListApi-slice";
 
-const SinglePizza2 = () => {
+const SinglePizza = () => {
 
   const { id } = useParams();
 
@@ -21,8 +21,8 @@ const SinglePizza2 = () => {
     return (
       <>
         <section className="section pizza-section">
-          <Link to={"/"} className="btn btn-primary">
-            back home
+          <Link to={"/dash/pizzas"} className="btn btn-primary">
+            go back
           </Link>
           <div className="pizza">
             <img src={imageUrl} alt={name} />
@@ -59,4 +59,4 @@ const SinglePizza2 = () => {
   } else return <p>Pizza not found!</p>;
 };
 
-export default SinglePizza2;
+export default SinglePizza;

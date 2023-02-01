@@ -75,19 +75,15 @@ export const {
   useDeletePizzaMutation
 } = pizzasApiSlice
 
-// returns the query result object
 export const selectPizzasResult = pizzasApiSlice.endpoints.getPizzas.select()
 
-// creates memoized selector
 const selectPizzasData = createSelector(
   selectPizzasResult,
-  pizzasResult => pizzasResult.data // normalized state object with ids & entities
+  pizzasResult => pizzasResult.data 
 )
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
   selectAll: selectAllPizzas,
   selectById: selectPizzaById,
   selectIds: selectPizzaIds
-  // Pass in a selector that returns the notes slice of state
 } = pizzasAdapter.getSelectors(state => selectPizzasData(state) ?? initialState)

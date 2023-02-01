@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 // @route GET /users
 // @access Private
 const getAllUsers = asyncHandler(async (req, res) => {
+  
   const users = await User.find({}, { password: 0 }).lean().exec();
 
   if (!users?.length) {
@@ -18,9 +19,9 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @route POST /users
 // @access Private
 const createNewUser = asyncHandler(async (req, res) => {
-  const { username, password, roles } = req.body;
+  const { username, password } = req.body;
 
-  if (!username || !password || !Array.isArray(roles) || !roles.length) {
+  if (!username || !password ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -35,7 +36,7 @@ const createNewUser = asyncHandler(async (req, res) => {
   const userObject = {
     username: username,
     password: hashedPsswd,
-    roles: roles,
+    roles: ["user"]
   };
 
   const user = await User.create(userObject);
@@ -52,9 +53,9 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
   
-  const { id, username, roles, password } = req.body;
+  const { id, username, password } = req.body;
 
-  if (!id || !username || !Array.isArray(roles) || !roles.length) {
+  if (!id || !username) {
     return res
       .status(400)
       .json({ message: "All fields except password are required" });
@@ -62,25 +63,19 @@ const updateUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ _id: id }).exec();
 
-  // console.log(user)
+  console.log(user)
 
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
 
-  const duplicateQuery = { username: username, _id: { $ne: id } };
+  const duplicate = await User.findOne({ username }).lean().exec();
 
-  const duplicate = await User.find(duplicateQuery).lean().exec();
-
-  console.log(duplicate)
-  console.log(duplicate.length)
-
-  if (duplicate.lenth !== 0) {
+  if (duplicate) {
     return res.status(409).json({ message: "Username is already taken" });
   }
 
   user.username = username;
-  user.roles = roles;
 
   if (password) {
     user.password = await bcrypt.hash(password, 10);
@@ -92,10 +87,13 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 // @desc Delete a user
-// @route DELETE /users/deleteUser/:id
+// @route DELETE /users
 // @access Private
 const deleteUser = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+
+  const { id } = req.body;
+
+  console.log(id);
 
   if (!id) {
     return res.status(400).json({ message: "User ID is required" });

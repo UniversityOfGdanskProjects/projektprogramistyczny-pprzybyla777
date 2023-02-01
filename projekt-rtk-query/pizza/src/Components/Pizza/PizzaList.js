@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-// import Pizza from "./Pizza";
-import Pizza2 from "./Pizza2";
-import { useGetPizzasQuery } from "../app/store/pizzaListApi-slice";
+import React from "react";
+import Pizza from "./Pizza";
+import { useGetPizzasQuery } from "../../app/store/pizzaListApi-slice";
 
-const PizzaList2 = (props) => {
+const PizzaList = (props) => {
 
   const {
     data: pizzas,
@@ -32,13 +31,13 @@ const PizzaList2 = (props) => {
     const pizzasArr = Object.values(entities)
 
     const listContent = pizzasArr?.length
-      ? pizzasArr.map((pizza) => <Pizza2 key={pizza.id} pizza={pizza} />)
+      ? pizzasArr.map((pizza) => <Pizza key={pizza.id} pizza={pizza} />)
       : null;
 
     content = (
       <section className="list">
         <h5 className="list-title">PIZZA MENU</h5>
-        <div className="list-items">{listContent}</div>
+        <div className="list-items">{ listContent }</div>
       </section>
     );
   }
@@ -46,4 +45,4 @@ const PizzaList2 = (props) => {
   return content;
 };
 
-export default PizzaList2;
+export default PizzaList;

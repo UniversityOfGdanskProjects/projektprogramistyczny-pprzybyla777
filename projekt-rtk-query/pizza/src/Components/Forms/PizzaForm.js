@@ -3,12 +3,10 @@ import Modal from "../UI/Modal";
 import { useFormik } from "formik";
 import { PizzaFormSchema } from "../../schemas/PizzaFormSchema";
 import { useSelector, useDispatch } from "react-redux";
-// import { postNewPizza, updatePizza } from "../../store/pizzaList-actions";
 import { uiActions } from "../../app/store/ui-slice";
-// import { useParams } from "react-router-dom";
 import { useAddNewPizzaMutation } from "../../app/store/pizzaListApi-slice";
 
-const PizzaForm2 = () => {
+const PizzaForm = () => {
 
   const [addNewPizza, {
     isLoading,
@@ -210,4 +208,4 @@ const PizzaForm2 = () => {
   );
 };
 
-export default PizzaForm2;
+export default PizzaForm;

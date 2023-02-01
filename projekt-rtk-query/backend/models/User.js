@@ -11,8 +11,10 @@ const userSchema = new mongoose.Schema({
     },
     roles: [{
         type: String,
-        default: "User"
+        default: ["user"]
     }],
 })
 
-module.exports = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+
+module.exports = User;

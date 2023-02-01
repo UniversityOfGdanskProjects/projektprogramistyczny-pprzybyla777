@@ -1,15 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import UpdateButton from "./UI/UpdateButton";
-// import DeleteButton from "./UI/DeleteButton";
-import UpdateButton from "./UI/UpdateButton";
-import DeleteButton from "./UI/DeleteButton";
-import { useSelector } from "react-redux";
-import { selectPizzaById } from "../app/store/pizzaListApi-slice";
+import UpdateButton from "../UI/UpdateButton";
+import DeleteButton from "../UI/DeleteButton";
 
-const Pizza2 = (props) => {
+const Pizza = (props) => {
 
-  const { id, name, price, imageUrl, vegan, createdAt } = props.pizza
+  const { id, name, price, imageUrl, vegan } = props.pizza
 
   return (
     <article className="pizza-box">
@@ -21,7 +17,7 @@ const Pizza2 = (props) => {
         <p>{price.small} zł / {price.large} zł</p>
         <Link
           className="btn btn-primary btn-details"
-          to={"/pizza/" + id}
+          to={"/dash/pizzas/pizza/" + id}
         >
           Details
         </Link>
@@ -35,4 +31,4 @@ const Pizza2 = (props) => {
   );
 };
 
-export default Pizza2;
+export default Pizza;

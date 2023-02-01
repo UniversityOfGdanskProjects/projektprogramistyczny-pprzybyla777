@@ -6,7 +6,7 @@ const UpdateButton = (props) => {
   const id = props.id
 
   return ( 
-    <Link to={"/pizzas/" + id}>
+    <Link to={`${id}`}>
       <button>Update</button>
     </Link>
    );

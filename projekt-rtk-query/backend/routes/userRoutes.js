@@ -6,9 +6,6 @@ router.route('/')
     .get(usersController.getAllUsers)
     .post(usersController.createNewUser)
     .patch(usersController.updateUser)
-    
-router.route("/deleteUser/:id")
     .delete(usersController.deleteUser)
-
 
 module.exports = router

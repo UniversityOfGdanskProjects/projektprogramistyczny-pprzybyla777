@@ -184,6 +184,41 @@ Header
   width: 3rem;
 }
 
+/* USERS LIST*/
+.users-list {
+  margin: 8rem auto;
+  width: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.users-list .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 3rem;
+  background-color: rgba(211, 211, 187, 0.514);
+  border-radius: 10px;
+}
+
+.users-list span {
+  color: gray;
+  font-size: 2rem;
+}
+
+span.nth {
+  color: black;
+  font-size: 2rem;
+  margin: 10px 0 0 0;
+}
+
+button.del {
+  background-color: rgb(231, 53, 53);
+}
+
+
 /* 
 ====== 
 Pizza List 

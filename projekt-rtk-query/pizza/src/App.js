@@ -1,38 +1,87 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import React from "react";
+import { Routes, Route} from "react-router-dom";
+
 import Header from "./Components/Header";
 import Home from "./pages/Home";
-import SinglePizza2 from "./pages/SinglePizza2";
-import Error from "./pages/Error";
-import "./App.css";
-import PizzaForm2 from "./Components/Forms/PizzaForm2";
+
+import LoginPage from "./pages/LogInPage";
+import LoggedInPage from "./pages/LoggedInPage";
+
+import PizzaList from "./Components/Pizza/PizzaList";
+import SinglePizza from "./pages/SinglePizza";
+
+import UsersList from "./Components/Users/UsersList";
+import NewUserForm from "./Components/Users/NewUserForm";
+import EditUser from "./Components/Users/EditUser";
+
+import PizzaForm from "./Components/Forms/PizzaForm";
 import EditPizza from "./Components/Forms/EditPizza";
+
+import CatsList from "./Components/Cats.js/CatsList";
+import DogsList from "./Components/Dogs.js/DogsList";
+
+import NewAnimalForm from "./Components/Animals/NewAnimalForm";
+import EditCat from "./Components/Animals/EditCat";
+import EditDog from "./Components/Animals/EditDog";
+
+import Error from "./pages/Error";
+
+import DefaultLayout from "./layouts/DefaultLayout";
+import DashLayout from "./layouts/DashLayout";
+
+import "./App.css";
+import Cat from "./Components/Cats.js/Cat";
+
 
 const App = () => {
 
   return (
     <div className="App">
-      <Router>
 
-        <Header />
+<Header />
 
-      <Routes>
+<Routes>
+      <Route path="/" element={<DefaultLayout />}>
+        <Route index element={<Home />} />
+        <Route path="login" element={<LoginPage />} />
 
-          <Route path="/" element={<Home />} />
+          <Route path="dash" element={<DashLayout />}>
 
-          <Route path="/pizza/:id" element={<SinglePizza2 />} />
+            <Route index element={<LoggedInPage />} />
 
-          <Route path="/pizzas">
-            <Route index element={<h1>Hi!</h1>}/>
-            <Route path=":id" element={ <EditPizza /> } />
-            <Route path="new" element={<PizzaForm2 />}/>
-          </Route>
+            <Route path="pizzas">
+              <Route index element={<PizzaList />} />
+              <Route path=":id" element={<EditPizza />} />
+              <Route path="new" element={<PizzaForm />} />
+              <Route path="pizza/:id" element={<SinglePizza />} />
+            </Route>
 
+            <Route path="users">
+              <Route index element={<UsersList />} />
+              <Route path=":id" element={<EditUser />} />
+              <Route path="new" element={<NewUserForm />} />
+            </Route>
+
+
+            <Route path="cats">
+              <Route index element={< CatsList />} />
+              <Route path=":id" element={<EditCat />} />
+              <Route path="new" element={<NewAnimalForm />} />
+            </Route>
+
+            <Route path="dogs">
+              <Route index element={< DogsList />} />
+              <Route path=":id" element={<EditDog />} />
+              <Route path="new" element={<NewAnimalForm />} />
+            </Route>
+
+          </Route>{/* End Dash */}
 
           <Route path="*" element={<Error />}></Route>
-      </Routes>
 
-      </Router>
+      </Route>
+    </Routes>
+
     </div>
   );
 };

@@ -12,8 +12,17 @@ const { eventsLogger } = require("./middleware/logger");
 const PORT = process.env.PORT || 5000;
 
 const samplePizzas = require("./data/samplePizzas");
+const sampleUsers = require("./data/sampleUsers");
+const sampleDogs = require("./data/sampleDogs");
+const sampleCats = require("./data/sampleCats");
+
 const Pizza = require("./models/Pizza");
 const Comment = require("./models/Comment");
+const User = require("./models/User")
+
+const Dog = require("./models/Dog")
+const Cat = require("./models/Cat")
+
 
 const app = express();
 
@@ -34,6 +43,10 @@ app.use("/", require("./routes/root"));
 app.use("/users", require("./routes/userRoutes"));
 
 app.use("/pizzas", require("./routes/pizzaRoutes"));
+
+app.use("/cats", require("./routes/catRoutes"));
+
+app.use("/dogs", require("./routes/dogRoutes"));
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -59,6 +72,18 @@ mongoose.connection.once("open", async () => {
       return Pizza.create(pizza);
     })
   );
+  await User.collection.drop()
+  await Promise.all(
+    sampleUsers.map(user => User.create(user))
+  )
+  await Dog.collection.drop()
+  await Promise.all(
+    sampleDogs.map(dog => Dog.create(dog))
+  )
+  await Cat.collection.drop()
+  await Promise.all(
+    sampleCats.map(cat => Cat.create(cat))
+  )
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 
