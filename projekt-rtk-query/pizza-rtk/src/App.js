@@ -1,9 +1,9 @@
 import React from "react";
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 
-import LoginPage from "./Components/auth/LogInPage"
+import LoginPage from "./Components/auth/LogInPage";
 import LoggedInPage from "./pages/LoggedInPage";
 
 import PizzaList from "./Components/Pizza/PizzaList";
@@ -28,60 +28,55 @@ import Error from "./pages/Error";
 import DefaultLayout from "./layouts/DefaultLayout";
 import DashLayout from "./layouts/DashLayout";
 
+import PersistLogin from "./Components/auth/PersistLogin";
 import Prefetch from "./Components/auth/Prefetch";
-
 import "./App.css";
 
-
 const App = () => {
-
   return (
     <div className="App">
+      <Routes>
+        <Route path="/" element={<DefaultLayout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<LoginPage />} />
 
-<Routes>
-      <Route path="/" element={<DefaultLayout />}>
-        <Route index element={<Home />} />
-        <Route path="login" element={<LoginPage />} />
+          <Route element={<PersistLogin />}>
+            <Route element={<Prefetch />}>
+              <Route path="dash" element={<DashLayout />}>
+                <Route index element={<LoggedInPage />} />
 
-          <Route element={<Prefetch />}>
-          <Route path="dash" element={<DashLayout />}>
+                <Route path="pizzas">
+                  <Route index element={<PizzaList />} />
+                  <Route path=":id" element={<EditPizza />} />
+                  <Route path="new" element={<PizzaForm />} />
+                  <Route path="pizza/:id" element={<SinglePizza />} />
+                </Route>
 
-            <Route index element={<LoggedInPage />} />
+                <Route path="users">
+                  <Route index element={<UsersList />} />
+                  <Route path=":id" element={<EditUser />} />
+                  <Route path="new" element={<NewUserForm />} />
+                </Route>
 
-            <Route path="pizzas">
-              <Route index element={<PizzaList />} />
-              <Route path=":id" element={<EditPizza />} />
-              <Route path="new" element={<PizzaForm />} />
-              <Route path="pizza/:id" element={<SinglePizza />} />
+                <Route path="cats">
+                  <Route index element={<CatsList />} />
+                  <Route path=":id" element={<EditCat />} />
+                  <Route path="new" element={<NewAnimalForm />} />
+                </Route>
+
+                <Route path="dogs">
+                  <Route index element={<DogsList />} />
+                  <Route path=":id" element={<EditDog />} />
+                  <Route path="new" element={<NewAnimalForm />} />
+                </Route>
+              </Route>
             </Route>
-
-            <Route path="users">
-              <Route index element={<UsersList />} />
-              <Route path=":id" element={<EditUser />} />
-              <Route path="new" element={<NewUserForm />} />
-            </Route>
-
-
-            <Route path="cats">
-              <Route index element={< CatsList />} />
-              <Route path=":id" element={<EditCat />} />
-              <Route path="new" element={<NewAnimalForm />} />
-            </Route>
-
-            <Route path="dogs">
-              <Route index element={< DogsList />} />
-              <Route path=":id" element={<EditDog />} />
-              <Route path="new" element={<NewAnimalForm />} />
-            </Route>
-
-          </Route>{/* End Dash */}
           </Route>
+          {/* End Dash */}
 
           <Route path="*" element={<Error />}></Route>
-
-      </Route>
-    </Routes>
-
+        </Route>
+      </Routes>
     </div>
   );
 };

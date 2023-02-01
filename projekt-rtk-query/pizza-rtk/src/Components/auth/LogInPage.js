@@ -4,27 +4,27 @@ import { useFormik } from "formik";
 import { uiActions } from "../../app/store/ui-slice";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setCredentials } from "./authSlice";
-import { useLoginMutation } from "./authSliceApi";
+import { setCredentials } from "./auth-slice";
+import { useLoginMutation } from "./authApi-slice";
 import { NewUserFormSchema } from "../../schemas/NewUserFormSchema";
 import Modal from "../UI/Modal";
 
-const Login = () => {
+import usePersist from "../../hooks/usePersist";
 
+const Login = () => {
   const modalIsVisible = useSelector((state) => state.ui.modalIsVisible);
   const modalTitle = useSelector((state) => state.ui.modalTitle);
   const modalMsg = useSelector((state) => state.ui.modalMsg);
 
-
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [persist, setPersist] = usePersist();
 
   const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (values, actions) => {
-
-    const {username, password} = values
+    const { username, password } = values;
 
     try {
       const { accessToken } = await login({ username, password }).unwrap();
@@ -33,13 +33,24 @@ const Login = () => {
       navigate("/dash");
     } catch (err) {
       if (!err.status) {
-        dispatch(uiActions.showModal({title: "Failure!", msg: "No Server Response"}))
+        dispatch(
+          uiActions.showModal({ title: "Failure!", msg: "No Server Response" })
+        );
       } else if (err.status === 400) {
-        dispatch(uiActions.showModal({title: "Failure!", msg: "Missing Username or Password"}))
+        dispatch(
+          uiActions.showModal({
+            title: "Failure!",
+            msg: "Missing Username or Password",
+          })
+        );
       } else if (err.status === 401) {
-        dispatch(uiActions.showModal({title: "Failure!", msg: "Unauthorized"}))
+        dispatch(
+          uiActions.showModal({ title: "Failure!", msg: "Unauthorized" })
+        );
       } else {
-        dispatch(uiActions.showModal({title: "Failure!", msg: err.data?.message}))
+        dispatch(
+          uiActions.showModal({ title: "Failure!", msg: err.data?.message })
+        );
       }
     }
   };
@@ -51,7 +62,6 @@ const Login = () => {
     handleBlur,
     handleChange,
     handleSubmit,
-    resetForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -66,9 +76,7 @@ const Login = () => {
     dispatch(uiActions.hideModal());
   };
 
-  const resetInputsHandler = () => {
-    resetForm();
-  };
+  const handleToggle = () => setPersist(prev => !prev);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -119,10 +127,18 @@ const Login = () => {
             ""
           )}
         </div>
-        <button type="submit">Submit</button>
-        <button type="button" className="reset" onClick={resetInputsHandler}>
-          Reset
-        </button>
+        <button type="submit">Sign In</button>
+        {/* change it */}
+        <label htmlFor="persist" className="form__persist">
+          <input
+            type="checkbox"
+            className="form__checkbox"
+            id="persist"
+            onChange={handleToggle}
+            checked={persist}
+          />
+          Trust This Device
+        </label>
       </form>
     </React.Fragment>
   );

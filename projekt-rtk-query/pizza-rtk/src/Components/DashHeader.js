@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
-import { useSendLogoutMutation } from "./auth/authSliceApi";
+import { useSendLogoutMutation } from "./auth/authApi-slice";
 
 
 
@@ -39,7 +39,7 @@ const DashHeader = () => {
     <header className="header">
       <div className="header-content">
         <div className="header-logo">
-          <Link to="/">
+          <Link to="/dash">
             <img src={logo} alt="Logo" className="logo" />
           </Link>
         </div>
