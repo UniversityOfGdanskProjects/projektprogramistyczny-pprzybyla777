@@ -89,7 +89,7 @@ const Login = () => {
           onConfirm={confirmSubmissionHandler}
         />
       )}
-      <form onSubmit={handleSubmit} autoComplete="off">
+      <form onSubmit={handleSubmit} className="login-form" autoComplete="off">
         <h1>Sign in</h1>
         <div className="input-container">
           <label htmlFor="username">username</label>
