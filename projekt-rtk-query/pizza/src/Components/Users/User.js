@@ -31,14 +31,16 @@ const User = (props) => {
 
       const userRolesString = user.roles.toString().replaceAll(',', ', ')
 
+      const ifAdmin = userRolesString.includes("admin")
+
       return (
           <div className="item user">
               <span className="nth">{props.nth + 1}. </span>
               <div className="username"><span>Username: </span>{user.username}</div>
               <div className="roles"><span>Roles: </span>{userRolesString}</div>
               <div className="actions">
-                <button className="del" onClick={deleteHandler}>DELETE</button>
-                <button className="upd" onClick={handleEdit}>UPDATE</button>
+                { !ifAdmin && <button className="del" onClick={deleteHandler}>DELETE</button>}
+                <button className="upd" onClick={handleEdit}> UPDATE</button>
               </div>
           </div>
       )

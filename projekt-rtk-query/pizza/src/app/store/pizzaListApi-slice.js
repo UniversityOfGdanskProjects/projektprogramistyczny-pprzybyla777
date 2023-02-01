@@ -15,7 +15,6 @@ export const pizzasApiSlice = apiSlice.injectEndpoints({
           validateStatus: (response, result) => {
               return response.status === 200 && !result.isError
           },
-          keepUnusedData: 5,
           transformResponse: responseData => { // jak będą błedy to tu map id 
               const loadedPizzas = responseData
               console.log(loadedPizzas);

@@ -11,7 +11,11 @@ const DogsList = (props) => {
     isSuccess,
     isError,
     error,
-  } = useGetDogsQuery();
+  } = useGetDogsQuery(undefined, {
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  });
 
   let content;
 

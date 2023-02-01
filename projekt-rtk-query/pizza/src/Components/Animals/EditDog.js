@@ -9,8 +9,6 @@ import { useGetDogsQuery } from '../../app/store/dogListApi-slice'
 
 const EditDog = () => {
 
-  useGetDogsQuery();
-
     const { id } = useParams()
 
     const dog = useSelector(state => selectDogById(state, id))

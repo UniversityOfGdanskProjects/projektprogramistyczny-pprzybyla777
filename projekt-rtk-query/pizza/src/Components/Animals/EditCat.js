@@ -9,8 +9,6 @@ import { useGetCatsQuery } from '../../app/store/catListApi-slice'
 
 const EditCat = () => {
 
-  useGetCatsQuery();
-
     const { id } = useParams()
 
     const cat = useSelector(state => selectCatById(state, id))

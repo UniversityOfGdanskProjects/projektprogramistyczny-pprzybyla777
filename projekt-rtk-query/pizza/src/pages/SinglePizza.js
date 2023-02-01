@@ -1,15 +1,13 @@
 import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectPizzaById, useGetPizzasQuery } from "../app/store/pizzaListApi-slice";
+import { selectPizzaById } from "../app/store/pizzaListApi-slice";
 
 const SinglePizza = () => {
 
   const { id } = useParams();
 
-  useGetPizzasQuery();
-
-  console.log(id);
+  // console.log(id);
 
   const singlePizza = useSelector((state) => selectPizzaById(state, id));
 

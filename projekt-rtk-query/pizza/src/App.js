@@ -29,8 +29,9 @@ import Error from "./pages/Error";
 import DefaultLayout from "./layouts/DefaultLayout";
 import DashLayout from "./layouts/DashLayout";
 
+import Prefetch from "./Components/auth/Prefetch";
+
 import "./App.css";
-import Cat from "./Components/Cats.js/Cat";
 
 
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="login" element={<LoginPage />} />
 
+          <Route element={<Prefetch />}>
           <Route path="dash" element={<DashLayout />}>
 
             <Route index element={<LoggedInPage />} />
@@ -76,6 +78,7 @@ const App = () => {
             </Route>
 
           </Route>{/* End Dash */}
+          </Route>
 
           <Route path="*" element={<Error />}></Route>
 
