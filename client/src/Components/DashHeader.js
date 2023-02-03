@@ -44,30 +44,6 @@ const DashHeader = () => {
               <NavLink to={"/dash/pizzas/new"}>Add Pizza</NavLink>
             </li>
           )}
-          <li>
-            <NavLink to={"/dash/users"}>User List</NavLink>
-          </li>
-          {isAdmin && (
-            <li>
-              <NavLink to={"/dash/users/new"}>Add User</NavLink>
-            </li>
-          )}
-          <li>
-            <NavLink to={"/dash/dogs"}>Dog List</NavLink>
-          </li>
-          {isAdmin && (
-            <li>
-              <NavLink to={"/dash/dogs/new"}>Add Dog</NavLink>
-            </li>
-          )}
-          <li>
-            <NavLink to={"/dash/cats"}>Cat List</NavLink>
-          </li>
-          {isAdmin && (
-            <li>
-              <NavLink to={"/dash/cats/new"}>Add Cat</NavLink>
-            </li>
-          )}
           {logoutButton}
         </div>
       </div>

@@ -1,10 +1,17 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import Header from "../Components/Header";
 
-const DefaultLayout = (props) => {
+const DefaultLayout = () => {
+
+  const { pathname } = useLocation();
+
+  let header = pathname.includes("dash") ? null : < Header />
+
   return (
     <React.Fragment>
-        <Outlet />
+      {header}
+      <Outlet />
     </React.Fragment>
   );
 };

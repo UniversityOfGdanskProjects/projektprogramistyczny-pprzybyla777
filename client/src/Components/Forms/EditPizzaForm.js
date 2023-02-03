@@ -54,8 +54,10 @@ const EditPizzaForm = ({ pizza }) => {
       toppings: pizza.toppings.join(", "),
       small: pizza.price.small,
       large: pizza.price.large,
+      flour: pizza.flour,
+      instructions: pizza.instructions,
       imageUrl: pizza.imageUrl,
-      vegan: pizza.vegan.toString(),
+      gluten: pizza.gluten.toString(),
     },
     validationSchema: PizzaFormSchema,
     onSubmit,
@@ -152,6 +154,42 @@ const EditPizzaForm = ({ pizza }) => {
           )}
         </div>
         <div className="input-container">
+          <label htmlFor="flour">Flour</label>
+          <input
+            type="text"
+            id="flour"
+            name="flour"
+            placeholder="Włoska"
+            value={values.flour}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={errors.flour && touched.flour ? "input-error" : ""}
+          />
+          {errors.flour && touched.flour ? (
+            <p className="error">{errors.flour}</p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="input-container">
+          <label htmlFor="instructions">instructions</label>
+          <input
+            type="text"
+            id="instructions"
+            name="instructions"
+            placeholder="Podawać na ciepło. Posypać świeżymi liśćmi bazylii."
+            value={values.instructions}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={errors.instructions && touched.instructions ? "input-error" : ""}
+          />
+          {errors.instructions && touched.instructions ? (
+            <p className="error">{errors.instructions}</p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="input-container">
           <label htmlFor="image_URL">Image URL</label>
           <input
             type="text"
@@ -170,9 +208,9 @@ const EditPizzaForm = ({ pizza }) => {
           )}
         </div>
         <div className="radio-container">
-          <p>Vegan:</p>
-          {errors.vegan && touched.vegan ? (
-            <p className="radio error">{errors.vegan}</p>
+          <p>gluten:</p>
+          {errors.gluten && touched.gluten ? (
+            <p className="radio error">{errors.gluten}</p>
           ) : (
             ""
           )}
@@ -180,24 +218,24 @@ const EditPizzaForm = ({ pizza }) => {
             <div className="radio-option">
               <input
                 type="radio"
-                id="radio-vegan-true"
-                name="vegan"
+                id="radio-gluten-true"
+                name="gluten"
                 value="true"
                 onChange={handleChange}
-                className={errors.vegan ? "input-error" : ""}
+                className={errors.gluten ? "input-error" : ""}
               />
-              <label htmlFor="radio-vegan-true">true</label>
+              <label htmlFor="radio-gluten-true">true</label>
             </div>
             <div className="radio-option">
               <input
                 type="radio"
-                id="radio-vegan-false"
-                name="vegan"
+                id="radio-gluten-false"
+                name="gluten"
                 value="false"
                 onChange={handleChange}
-                className={errors.vegan ? "input-error" : ""}
+                className={errors.gluten ? "input-error" : ""}
               />
-              <label htmlFor="radio-vegan-false">false</label>
+              <label htmlFor="radio-gluten-false">false</label>
             </div>
           </div>
         </div>

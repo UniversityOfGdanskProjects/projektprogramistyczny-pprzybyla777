@@ -17,15 +17,16 @@ const getAllPizzas = asyncHandler(async (req, res) => {
 
 
 const createNewPizza = asyncHandler(async (req, res) => {
-  const { name, toppings, small, large, imageUrl, vegan } = req.body;
+
+  const { name, toppings, small, large, flour, instructions, imageUrl, gluten } = req.body;
 
   console.log(req.body);
 
-  if (!name || !toppings || !small || !large || !imageUrl || !vegan) {
+  if (!name || !toppings || !small || !large || !flour || !instructions || !imageUrl || !gluten) {
     return res.status(400).json({ message: "All fields are required." });
   }
 
-  const isVeganTrue = vegan === "true";
+  const isGlutenTrue = gluten === "true";
   const toppingsArray = toppings.split(", ");
 
   const pizzaObject = {
@@ -35,8 +36,10 @@ const createNewPizza = asyncHandler(async (req, res) => {
       small: Number(small),
       large: Number(large),
     },
+    flour,
+    instructions,
     imageUrl: imageUrl,
-    vegan: isVeganTrue,
+    gluten: isGlutenTrue,
   };
 
   const pizza = await Pizza.create(pizzaObject);
@@ -58,22 +61,22 @@ const createNewPizza = asyncHandler(async (req, res) => {
 // @access Private
 const updatePizza = asyncHandler(async (req, res) => {
 
-  const { id, name, toppings, small, large, imageUrl, vegan } = req.body;
+  const { id, name, toppings, small, large, flour, instructions, imageUrl, gluten } = req.body;
 
   console.log(req.body);
 
-  if (!id || !name || !toppings || !small || !large || !imageUrl || !vegan) {
+  if (!name || !toppings || !small || !large || !flour || !instructions || !imageUrl || !gluten) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const isVeganTrue = vegan === "true";
+  const isGlutenTrue = gluten === "true";
   const toppingsArray = toppings.split(", ");
 
   console.log(id);
 
   const pizza = await Pizza.findOne({id}).exec();
 
-  console.log("B");
+  // console.log("B");
 
   console.log(pizza);
 
@@ -81,16 +84,18 @@ const updatePizza = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Pizza not found" });
   }
 
-  console.log("C");
+  // console.log("C");
 
   pizza.name = name;
   pizza.toppings = toppingsArray;
   pizza.price.small = small;
   pizza.price.large = large;
+  pizza.flour = flour;
+  pizza.instructions = instructions;
   pizza.imageUrl = imageUrl;
-  pizza.vegan = isVeganTrue
+  pizza.gluten = isGlutenTrue
 
-  console.log("D");
+  // console.log("D");
 
   const updatedPizza = await pizza.save();
 
@@ -165,6 +170,11 @@ const addComment = asyncHandler(async (req, res) => {
 
   res.json({message: `New comment added!`, newPizza: pizzaWithNewComment});
 });
+
+
+const searchByPizzaName = async (req, res) => {
+  //
+}
 
 module.exports = {
   getAllPizzas,

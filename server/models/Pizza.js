@@ -22,14 +22,21 @@ const pizzaSchema = new mongoose.Schema({
           required: true
       }
   },
-  vegan: {
+  flour: {
+    type: String,
+    required: true
+  },
+  gluten: {
       type: Boolean,
       required: true
+  },
+  instructions: {
+    type: String,
+    required: true
   },
   imageUrl: {
       type: String,
       required: true,
-      match: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
   },
   comments: [{
       type: mongoose.Schema.Types.ObjectId,

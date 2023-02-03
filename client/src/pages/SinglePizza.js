@@ -1,17 +1,19 @@
 import React from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectPizzaById } from "../app/store/pizzaListApi-slice";
 
 const SinglePizza = () => {
 
-  const { id } = useParams();
+  const { pathname } = useLocation();
 
-  // console.log(id);
+  const goBackLink = pathname.includes("dash") ?  "/dash/pizzas" : "/";
+
+  const { id } = useParams();
 
   const singlePizza = useSelector((state) => selectPizzaById(state, id));
 
-  const { name, toppings, price, vegan, imageUrl, comments } = singlePizza ? singlePizza : {};
+  const { name, toppings, price, flour, gluten, instructions, imageUrl, comments } = singlePizza ? singlePizza : {};
 
   console.log(singlePizza);
 
@@ -19,7 +21,7 @@ const SinglePizza = () => {
     return (
       <>
         <section className="section pizza-section">
-          <Link to={"/dash/pizzas"} className="btn btn-primary">
+          <Link to={goBackLink} className="btn btn-primary">
             go back
           </Link>
           <div className="pizza">
@@ -28,6 +30,10 @@ const SinglePizza = () => {
               <p>
                 <span className="pizza-data">Name :</span>
                 {name}
+              </p>
+              <p>
+                <span className="pizza-data">Flour :</span>
+                {flour}
               </p>
               <p>
                 <span className="pizza-data">Toppings :</span>
@@ -43,12 +49,16 @@ const SinglePizza = () => {
                 <span className="pizza-data">42cm :</span>
                 {price.large}zł
               </p>
-              {vegan && (
-                <p>
-                  <span className="pizza-data">Info :</span>
-                  Vegan
-                </p>
-              )}
+              <p>
+                <span className="pizza-data">Info :</span>
+                {gluten ? "Contains Gluten" : "Gluten-Free"}
+              </p>
+              <p>
+                <span className="pizza-data">Instructions :</span>
+                {instructions.split(". ").map((instruction, index) => (
+                  <span key={index}>{instruction}</span>
+                ))}
+              </p>
             </div>
           </div>
         </section>

@@ -11,7 +11,7 @@ export const PizzaFormSchema = yup.object().shape({
   name: yup
     .string()
     .min(1)
-    .max(15, "Name must be 20 characters or less")
+    .max(15, "Name must be 15 characters or less")
     .required("Required"),
   toppings: yup.string().min(3).required("Required"),
   small: yup
@@ -32,9 +32,15 @@ export const PizzaFormSchema = yup.object().shape({
       "Please enter a valid price",
       FiveDigitsMaxBeforeFloatingPointAndUpToTwoDigitsAfter
     ),
+  flour: yup
+    .string()
+    .min(1)
+    .max(20, "Name must be 20 characters or less")
+    .required("Required"),
+  instructions: yup.string().min(3).required("Required"),
   imageUrl: yup
     .string()
     .required("Required")
     .test("imageUrl", "Please enter a valid URL", urlValidator),
-  vegan: yup.boolean().required("A radio option is required"),
+  gluten: yup.boolean().required("A radio option is required"),
 });

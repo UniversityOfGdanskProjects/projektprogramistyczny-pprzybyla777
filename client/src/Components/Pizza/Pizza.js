@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import UpdateButton from "../UI/UpdateButton";
 import DeleteButton from "../UI/DeleteButton";
 import useAuth from "../../hooks/useAuth";
@@ -7,7 +7,13 @@ import useAuth from "../../hooks/useAuth";
 const Pizza = (props) => {
   const { isAdmin } = useAuth();
 
-  const { id, name, price, imageUrl, vegan } = props.pizza;
+  const { pathname } = useLocation();
+
+  const { id, name, price, imageUrl, gluten } = props.pizza;
+
+  const detailsPath = pathname.includes("dash") ? "/dash/pizzas/pizza/" + id : "/pizza/" + id;
+
+  const glutenHeader = gluten ? <h5 className="gluten">Gluten</h5> : <h5 className="gluten-free">Gluten-Free</h5>
 
   return (
     <article className="pizza-box">
@@ -21,7 +27,7 @@ const Pizza = (props) => {
         </p>
         <Link
           className="btn btn-primary btn-details"
-          to={"/dash/pizzas/pizza/" + id}
+          to={detailsPath}
         >
           Details
         </Link>
@@ -31,7 +37,7 @@ const Pizza = (props) => {
             <DeleteButton id={id} />
           </div>
         )}
-        {vegan && <h5 className="vegan">Vegan</h5>}
+        { glutenHeader }
       </div>
     </article>
   );

@@ -6,7 +6,7 @@ import { uiActions } from "../../app/store/ui-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "./auth-slice";
 import { useLoginMutation } from "./authApi-slice";
-import { NewUserFormSchema } from "../../schemas/NewUserFormSchema";
+import { loginFormSchema } from "../../schemas/loginFormSchema";
 import Modal from "../UI/Modal";
 
 import usePersist from "../../hooks/usePersist";
@@ -68,7 +68,7 @@ const Login = () => {
       username: "",
       password: "",
     },
-    validationSchema: NewUserFormSchema,
+    validationSchema: loginFormSchema,
     onSubmit,
   });
 
