@@ -7,11 +7,14 @@ const verifyJWT = require("../middleware/verifyJWT");
 
 router
   .route("/")
-  .get(pizzasController.getAllPizzas)
+  .get(pizzasController.getPizzas)
   .post(verifyJWT, pizzasController.createNewPizza)
   .patch(verifyJWT, pizzasController.updatePizza)
   .delete(verifyJWT, pizzasController.deletePizza);
 
-router.route("/:id/addComment").post(pizzasController.addComment);
+// router.route("/search/:name").get(pizzasController.searchByPizzaName);
+
+
+// router.route("/:id/addComment").post(pizzasController.addComment);
 
 module.exports = router;

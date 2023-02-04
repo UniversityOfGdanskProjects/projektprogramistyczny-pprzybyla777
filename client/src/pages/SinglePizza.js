@@ -11,6 +11,8 @@ const SinglePizza = () => {
 
   const { id } = useParams();
 
+  console.log(id);
+
   const singlePizza = useSelector((state) => selectPizzaById(state, id));
 
   const { name, toppings, price, flour, gluten, instructions, imageUrl, comments } = singlePizza ? singlePizza : {};

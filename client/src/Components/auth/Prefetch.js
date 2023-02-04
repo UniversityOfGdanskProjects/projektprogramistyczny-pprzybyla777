@@ -9,7 +9,7 @@ const Prefetch = () => {
     useEffect(() => {
         console.log('subscribing')
 
-        const pizzas = store.dispatch(pizzasApiSlice.endpoints.getPizzas.initiate())
+        const pizzas = store.dispatch(pizzasApiSlice.endpoints.getPizzas.initiate({name: "", withGluten: true}))
         
         return () => {
             console.log('unsubscribing')

@@ -1,88 +1,84 @@
-import {
-  createSelector,
-  createEntityAdapter
-} from "@reduxjs/toolkit";
-import { apiSlice } from "../api/api-slice"
+import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
+import { apiSlice } from "../api/api-slice";
 
-const pizzasAdapter = createEntityAdapter({})
+const pizzasAdapter = createEntityAdapter({});
 
-const initialState = pizzasAdapter.getInitialState()
+const initialState = pizzasAdapter.getInitialState();
 
 export const pizzasApiSlice = apiSlice.injectEndpoints({
-  endpoints: builder => ({
-      getPizzas: builder.query({
-          query: () => '/pizzas',
-          validateStatus: (response, result) => {
-              return response.status === 200 && !result.isError
-          },
-          transformResponse: responseData => { // jak będą błedy to tu map id 
-              const loadedPizzas = responseData
-              console.log(loadedPizzas);
-              return pizzasAdapter.setAll(initialState, loadedPizzas)
-          },
-          providesTags: (result, error, arg) => {
-              console.log(result);
-              if (result?.ids) {
-                  return [
-                      { type: 'Pizza', id: 'LIST' },
-                      ...result.ids.map(id => ({ type: 'Pizza', id }))
-                  ]
-              } else return [{ type: 'Pizza', id: 'LIST' }]
-          }
+  endpoints: (builder) => ({
+    getPizzas: builder.query({
+      query: ({ name, withGluten }) => `/pizzas?name=${name}&gluten=${withGluten}`,
+      validateStatus: (response, result) => {
+        return response.status === 200 && !result.isError;
+      },
+      transformResponse: (responseData) => {
+        // jak będą błedy to tu map id
+        const loadedPizzas = responseData;
+        console.log("loaded pizzas: ");
+        console.log(loadedPizzas);
+        return pizzasAdapter.setAll(initialState, loadedPizzas);
+      },
+      providesTags: (result, error, arg) => {
+        console.log(result);
+        if (result?.ids) {
+          return [
+            { type: "Pizza", id: "LIST" },
+            ...result.ids.map((id) => ({ type: "Pizza", id })),
+          ];
+        } else return [{ type: "Pizza", id: "LIST" }];
+      },
+    }),
+    addNewPizza: builder.mutation({
+      query: (initialPizzaData) => ({
+        url: "/pizzas",
+        method: "POST",
+        body: {
+          ...initialPizzaData,
+        },
       }),
-      addNewPizza: builder.mutation({
-        query: initialPizzaData => ({
-            url: '/pizzas',
-            method: 'POST',
-            body: {
-                ...initialPizzaData,
-            }
-        }),
-        invalidatesTags: [
-            { type: 'Pizza', id: "LIST" }
-        ]
+      invalidatesTags: [{ type: "Pizza", id: "LIST" }],
     }),
     updatePizza: builder.mutation({
-        query: initialPizzaData => ({
-            url: '/pizzas',
-            method: 'PATCH',
-            body: {
-                ...initialPizzaData,
-            }
-        }),
-        invalidatesTags: (result, error, arg) => [
-            { type: 'Pizza', id: arg.id }
-        ]
-    }), // 
+      query: (initialPizzaData) => ({
+        url: "/pizzas",
+        method: "PATCH",
+        body: {
+          ...initialPizzaData,
+        },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Pizza", id: arg.id }],
+    }),
     deletePizza: builder.mutation({
-        query: ({ id }) => ({
-            url: `/pizzas`,
-            method: 'DELETE',
-            body: { id }
-        }),
-        invalidatesTags: (result, error, arg) => [
-            { type: 'Pizza', id: arg.id }
-        ]
+      query: ({ id }) => ({
+        url: `/pizzas`,
+        method: "DELETE",
+        body: { id },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Pizza", id: arg.id }],
     }),
   }),
-})
+});
 
 export const {
   useGetPizzasQuery,
   useAddNewPizzaMutation,
   useUpdatePizzaMutation,
-  useDeletePizzaMutation
-} = pizzasApiSlice
+  useDeletePizzaMutation,
+  useSearchPizzaByNameQuery,
+} = pizzasApiSlice;
 
-export const selectPizzasResult = pizzasApiSlice.endpoints.getPizzas.select()
+export const selectPizzasResult = pizzasApiSlice.endpoints.getPizzas.select({name: "", withGluten: true});
 
 const selectPizzasData = createSelector(
   selectPizzasResult,
-  pizzasResult => pizzasResult.data 
-)
+  (pizzasResult) => pizzasResult.data
+);
 
 export const {
   selectAll: selectAllPizzas,
   selectById: selectPizzaById,
-  selectIds: selectPizzaIds
-} = pizzasAdapter.getSelectors(state => selectPizzasData(state) ?? initialState)
+  selectIds: selectPizzaIds,
+} = pizzasAdapter.getSelectors(
+  (state) => selectPizzasData(state) ?? initialState
+);

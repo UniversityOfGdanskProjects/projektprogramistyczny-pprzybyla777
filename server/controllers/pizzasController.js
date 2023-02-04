@@ -3,16 +3,71 @@ const Comment = require("../models/Comment");
 
 const asyncHandler = require("express-async-handler");
 
-// @desc Get all pizzas
+// @desc Get pizzas
 // @route GET /pizzas
 // @access Private
-const getAllPizzas = asyncHandler(async (req, res) => {
-  const pizzas = await Pizza.find();
 
-  if (!pizzas?.length) {
-    return res.status(400).json({ message: "No pizzas found." });
+const getPizzas = asyncHandler(async (req, res) => {
+
+  const { name, gluten } = req.query;
+
+  console.log("n", name, "g", gluten)
+
+  if (name && gluten === "false") {
+
+    console.log("1");
+
+    const pizzas = await Pizza.find({
+      name: { $regex: name, $options: "i"}, gluten: false 
+    });
+
+    if (pizzas.length === 0) {
+      return res.status(404).json({ message: "No pizzas found" });
+    }
+
+    res.status(200).json(pizzas);
+
+  } else if (name) {
+
+    console.log("2");
+
+    const pizzas = await Pizza.find({
+      name: { $regex: name, $options: "i" },
+    });
+
+    if (pizzas.length === 0) {
+      return res.status(404).json({ message: "No pizzas found" });
+    }
+
+    res.status(200).json(pizzas);
+
+  } else if (gluten === "false") {
+
+    console.log("3");
+
+    const pizzas = await Pizza.find({
+      gluten: false,
+    });
+
+    if (pizzas.length === 0) {
+      return res.status(404).json({ message: "No pizzas found" });
+    }
+
+    res.status(200).json(pizzas);
+
   }
-  res.json(pizzas);
+  else {
+
+    console.log("4");
+
+    const pizzas = await Pizza.find();
+
+    if (!pizzas?.length) {
+      return res.status(400).json({ message: "No pizzas found." });
+    }
+
+    res.json(pizzas);
+  }
 });
 
 
@@ -172,14 +227,26 @@ const addComment = asyncHandler(async (req, res) => {
 });
 
 
-const searchByPizzaName = async (req, res) => {
-  //
-}
+// const searchByPizzaName = async (req, res) => {
+
+//   if (res.params.name) {
+//     try {
+      
+//       const searchResults = await Pizza.find({name: { $regex: req.params.name, $options: "i" }});
+//       res.status(200).json(searchResults);
+
+//     } catch (error) {
+//       console.log(error);
+//       res.status(404).json({message: " No Pizzas found"})
+//     }
+//   } else {
+//     res.status(404).json({message: "No pizza name passed"})
+//   }
+// }
 
 module.exports = {
-  getAllPizzas,
+  getPizzas,
   createNewPizza,
   updatePizza,
   deletePizza,
-  addComment
 };

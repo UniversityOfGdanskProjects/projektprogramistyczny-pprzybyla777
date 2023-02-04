@@ -207,7 +207,7 @@ Pizza List
 */
 
 .list {
-  padding: 5rem 0;
+  padding: 3rem 0;
 }
 .list-title {
   font-size: 2rem;
@@ -492,7 +492,11 @@ main .login-btn {
 
 .search-container {
   width: 40%;
-  margin: 2rem auto 3rem;
+  margin: 4rem auto 0;
+}
+
+.errmsg {
+  margin: 3rem auto;
 }
 
 /* LOGIN PAGE */
