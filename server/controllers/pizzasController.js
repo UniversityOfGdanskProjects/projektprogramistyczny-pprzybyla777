@@ -11,11 +11,7 @@ const getPizzas = asyncHandler(async (req, res) => {
 
   const { name, gluten } = req.query;
 
-  console.log("n", name, "g", gluten)
-
   if (name && gluten === "false") {
-
-    console.log("1");
 
     const pizzas = await Pizza.find({
       name: { $regex: name, $options: "i"}, gluten: false 
@@ -29,7 +25,6 @@ const getPizzas = asyncHandler(async (req, res) => {
 
   } else if (name) {
 
-    console.log("2");
 
     const pizzas = await Pizza.find({
       name: { $regex: name, $options: "i" },
@@ -43,8 +38,6 @@ const getPizzas = asyncHandler(async (req, res) => {
 
   } else if (gluten === "false") {
 
-    console.log("3");
-
     const pizzas = await Pizza.find({
       gluten: false,
     });
@@ -57,8 +50,6 @@ const getPizzas = asyncHandler(async (req, res) => {
 
   }
   else {
-
-    console.log("4");
 
     const pizzas = await Pizza.find();
 
@@ -226,23 +217,6 @@ const addComment = asyncHandler(async (req, res) => {
   res.json({message: `New comment added!`, newPizza: pizzaWithNewComment});
 });
 
-
-// const searchByPizzaName = async (req, res) => {
-
-//   if (res.params.name) {
-//     try {
-      
-//       const searchResults = await Pizza.find({name: { $regex: req.params.name, $options: "i" }});
-//       res.status(200).json(searchResults);
-
-//     } catch (error) {
-//       console.log(error);
-//       res.status(404).json({message: " No Pizzas found"})
-//     }
-//   } else {
-//     res.status(404).json({message: "No pizza name passed"})
-//   }
-// }
 
 module.exports = {
   getPizzas,

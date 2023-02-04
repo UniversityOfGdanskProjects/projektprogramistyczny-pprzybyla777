@@ -1,7 +1,9 @@
 import React from "react";
-import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectPizzaById } from "../app/store/pizzaListApi-slice";
+import Comment from "../Components/Comments/Comment";
+import CommentForm from "../Components/Comments/CommentForm";
 
 const SinglePizza = () => {
 
@@ -63,6 +65,12 @@ const SinglePizza = () => {
               </p>
             </div>
           </div>
+        </section>
+        <section className="comment-section">
+          <CommentForm pizzaId={id}/>
+          <h2>Comments:</h2>
+          {comments?.length === 0 && <p>No comments to display!</p>}
+          {comments?.length !== 0 && comments.map((comment, index) => <Comment key={index} comment={comment} />)}
         </section>
       </>
     );

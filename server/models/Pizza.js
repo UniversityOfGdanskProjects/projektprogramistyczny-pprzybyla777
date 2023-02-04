@@ -40,7 +40,8 @@ const pizzaSchema = new mongoose.Schema({
   },
   comments: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment"
+      ref: "Comment",
+      autopopulate: true
   }]
 });
 
@@ -52,6 +53,7 @@ pizzaSchema.plugin(AutoIncrement, {
   
 
 pizzaSchema.plugin(timestamp);
+pizzaSchema.plugin(require('mongoose-autopopulate'));
 
 const Pizza = mongoose.model('Pizza', pizzaSchema);
 

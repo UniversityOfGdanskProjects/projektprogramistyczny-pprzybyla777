@@ -57,6 +57,24 @@ export const pizzasApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Pizza", id: arg.id }],
     }),
+    addPizzaComment: builder.mutation({
+        query: ({pizzaId, newComment}) => ({
+          url: `/pizzas/comments/${pizzaId}`,
+          method: "POST",
+          body: {
+            ...newComment,
+          },
+        }),
+        invalidatesTags: [{ type: "Pizza", id: "LIST" }],
+      }),
+    deletePizzaComment: builder.mutation({
+        query: ({ pizzaId, commentId }) => ({
+          url: `/pizzas/comments/${pizzaId}`,
+          method: "DELETE",
+          body: { commentId },
+        }),
+        invalidatesTags: (result, error, arg) => [{ type: "Pizza", id: arg.id }],
+      }),
   }),
 });
 
@@ -65,6 +83,8 @@ export const {
   useAddNewPizzaMutation,
   useUpdatePizzaMutation,
   useDeletePizzaMutation,
+  useDeletePizzaCommentMutation,
+  useAddPizzaCommentMutation,
   useSearchPizzaByNameQuery,
 } = pizzasApiSlice;
 
