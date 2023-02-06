@@ -1,5 +1,8 @@
 import React from "react";
 import { useGetReportQuery } from "../app/store/reportApi-slice";
+import PizzaToppingsChart from "../Components/info/PizzaToppingsChart";
+import PizzasWithGlutenChart from "../Components/info/PizzasWithGlutenChart";
+import PizzaPricesChart from "../Components/info/PizzaPricesChart";
 
 const InfoPage = () => {
   const {
@@ -23,7 +26,6 @@ const InfoPage = () => {
   }
 
   if (isSuccess) {
-    console.log(report);
 
     const {
       totalPizzas,
@@ -51,7 +53,8 @@ const InfoPage = () => {
     const toppingsByOccurence = toppingsOccurencesInPizzaAmount.reduce((acc, curr) => acc + ` ${curr._id} (${curr.count}),` , "")
 
     content = (
-      <table>
+  <>
+  <table>
   <thead>
     <tr>
       <th colSpan="2">Summary</th>
@@ -128,10 +131,16 @@ const InfoPage = () => {
     </tr>
   </tbody>
 </table>
+<div className="canvas-holder">
+  <PizzaToppingsChart className="diagram" data={toppingsOccurencesInPizzaAmount} />
+  <PizzasWithGlutenChart className="diagram" data={{totalPizzas: totalPizzas, ...pizzasWithoutGluten}} />
+  <PizzaPricesChart className="diagram" data={{...minAndMaxPriceOfSmallAndLargePizzas, ...avgPriceOfSmallAndLargePizza}} />
+</div>
+</>
     );
   }
 
-  return <section>{content}</section>;
+  return <section className="info-section">{content}</section>;
 };
 
 export default InfoPage;
