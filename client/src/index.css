@@ -73,6 +73,10 @@ textarea {
   padding: 1.5em;
 }
 
+section {
+  padding: 1rem 0;
+}
+
 /* 
 ====== 
 Buttons 
@@ -516,4 +520,25 @@ label.form-persist {
 label.form-persist input {
   width: 1em;
   height: 1em;
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }

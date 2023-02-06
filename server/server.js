@@ -39,6 +39,8 @@ app.use("/auth", require("./routes/authRoutes"));
 
 app.use("/pizzas", require("./routes/pizzaRoutes"));
 
+app.use("/info", require("./routes/ReportRouter"));
+
 app.all("*", (req, res) => {
   res.status(404);
   if (req.accepts("html")) {

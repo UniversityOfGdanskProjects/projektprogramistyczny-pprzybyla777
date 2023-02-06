@@ -1,8 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-
 import LoginPage from "./Components/auth/LogInPage";
 import LoggedInPage from "./pages/LoggedInPage";
 
@@ -23,6 +21,8 @@ import Prefetch from "./Components/auth/Prefetch";
 import RequireAuth from "./Components/auth/RequireAuth";
 import { ROLES } from "./config/roles";
 
+import InfoPage from "./pages/InfoPage";
+
 import "./App.css";
 
 const App = () => {
@@ -36,6 +36,7 @@ const App = () => {
             <Route index element={<PizzaList />} />
             <Route path="pizza/:id" element={<SinglePizza />} />
             <Route path="login" element={<LoginPage />} />
+            <Route path="info" element={<InfoPage />}/>
 
             {/* PROTECTED */}
             <Route element={<PersistLogin />}>
@@ -57,6 +58,9 @@ const App = () => {
                     </Route>
                     <Route path="pizza/:id" element={<SinglePizza />} />
                   </Route>
+
+                  <Route path="info" index element={<InfoPage />}/>
+
                 </Route>
                 {/* End Dash */}
               </Route>

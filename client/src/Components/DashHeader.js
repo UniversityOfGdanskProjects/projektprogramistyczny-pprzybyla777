@@ -44,6 +44,7 @@ const DashHeader = () => {
               <NavLink to={"/dash/pizzas/new"}>Add Pizza</NavLink>
             </li>
           )}
+          <NavLink to="/dash/info">Info</NavLink>
           {logoutButton}
         </div>
       </div>
