@@ -39,12 +39,15 @@ const SinglePizza = () => {
                 <span className="pizza-data">Flour :</span>
                 {flour}
               </p>
-              <p>
+              <div className="p">
                 <span className="pizza-data">Toppings :</span>
+                <ul>
                 {toppings.map((topping, index) => (
-                  <span key={index}>{topping}</span>
+                  <li key={index}>{topping}</li>
                 ))}
-              </p>
+                </ul>
+
+              </div>
               <p>
                 <span className="pizza-data">32cm :</span>
                 {price.small}zł
@@ -57,12 +60,14 @@ const SinglePizza = () => {
                 <span className="pizza-data">Info :</span>
                 {gluten ? "Contains Gluten" : "Gluten-Free"}
               </p>
-              <p>
+              <div className="p">
                 <span className="pizza-data">Instructions :</span>
+                <ul className="instructions-list">
                 {instructions.split(". ").map((instruction, index) => (
-                  <span key={index}>{instruction}</span>
+                  <li key={index}>{instruction}</li>
                 ))}
-              </p>
+                </ul>
+              </div>
             </div>
           </div>
         </section>

@@ -37,6 +37,7 @@ const PizzaList = (props) => {
   }
 
   if (isSuccess) {
+    
     const { entities } = pizzas;
 
     // console.log(entities);

@@ -165,7 +165,8 @@ const deletePizza = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Pizza not found" });
   }
 
-  const result = await Pizza.deleteOne(pizza);
+  await Pizza.deleteOne(pizza);
+  pizza.comments.forEach(async comment => await Comment.findByIdAndDelete(comment._id))
 
   const resultMsg = `Pizza: ${pizza.name} with ID: ${pizza.id} has been deleted`;
 

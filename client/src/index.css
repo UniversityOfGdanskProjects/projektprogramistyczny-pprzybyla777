@@ -230,6 +230,9 @@ Pizza List
   column-gap: 2rem;
   /* align-items: start; */
 }
+
+
+
 @media screen and (min-width: 576px) {
   .list-items {
     grid-template-columns: repeat(auto-fill, minmax(338.8px, 1fr));
@@ -278,7 +281,7 @@ Pizza
 
 /* 
 ====== 
-SinglePizza
+Single Pizza
 ======
 */
 
@@ -302,6 +305,14 @@ SinglePizza
   text-transform: capitalize;
   line-height: 1.8;
 }
+
+.pizza div.p {
+  margin-bottom: 1.25rem;
+  font-weight: bold;
+  text-transform: capitalize;
+  line-height: 1.8;
+}
+
 .pizza span {
   margin-right: 0.5rem;
 }
@@ -314,6 +325,17 @@ SinglePizza
 .pizza-info {
   padding-top: 2rem;
 }
+
+.pizza ul {
+  list-style-type:circle;
+  padding: 0.5rem 1em 0.5rem 0;
+  margin-left: 2.5rem;
+}
+
+.pizza .instructions-list {
+  list-style-type: decimal;
+}
+
 @media screen and (min-width: 992px) {
   .pizza {
     display: grid;
@@ -502,6 +524,14 @@ main .login-btn {
 .errmsg {
   margin: 3rem auto;
 }
+
+.search-container input {
+  margin-bottom: 1rem;
+}
+
+/* .search-container label {
+  color: red;
+} */
 
 /* LOGIN PAGE */
 
