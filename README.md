@@ -31,7 +31,7 @@ Application designed for presenting a pizzeria menu, offering various functional
 - 	app shows live charts about stored pizzas data in the info page
 
 ## How to build
-After downloading this repo, you can run `npm install` both in the client and server directory and then run in both directories `npm start`.
+After downloading this repo, run `npm install` in the client and in the server directory and then run in both directories `npm start`.
 
 ### Warning:
 
@@ -55,7 +55,7 @@ So i made a video tour of this app, and the link is down below:
 
 [Open Video in YouTube](https://www.youtube.com/watch?v=Bhxq6fdcZEE)
 
-If you are using Live Site please **use this creditentials to login**:
+If you are using Live Site please **use this credentials to login**:
 ```
 login: admin
 password: admin123
